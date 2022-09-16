@@ -37,8 +37,8 @@ jobs:
         script: |
           # cd /home/ec2-user/prod/nginx-certbot-webapp-docker
           # echo $PWD
-          docker stop $(docker ps -a -q --filter ancestor=ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest)
-          docker rm $(docker ps -a -q --filter ancestor=ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest)
+          docker stop ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
+          docker rm ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
           docker rmi -f ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
           docker pull ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
           docker run -d ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
