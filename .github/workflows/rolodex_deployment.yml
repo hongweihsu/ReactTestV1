@@ -14,9 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Change directory
-      run: cd monsters-rolodex
     - name: Build the Docker image
+      working-directory: ./monsters-rolodex
       run: docker build . --file Dockerfile --tag rolodex:latest
     - name: Login to Github package
       run: echo "${{ secrets.PAT_GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ secrets.Docker_username }} --password-stdin
