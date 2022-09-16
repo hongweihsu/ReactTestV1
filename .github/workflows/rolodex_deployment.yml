@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag rolodex:latest
+    - name: Login to Github package
+      run: echo "${{ secrets.PAT_GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ secrets.Docker_username }} --password-stdin
+    - name: Tag docker Image
+      run: docker tag rolodex:latest ghcr.io/rolodex:latest
+    - name: push docker Image
+      run: docker push ghcr.io/rolodex:latest
+      
+      
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AWS_HOST }}
+        username: ${{ secrets.AWS_USER }}
+        key: ${{ secrets.AWS_KEY }}
+        script: |
+          # cd /home/ec2-user/prod/nginx-certbot-webapp-docker
+          # echo $PWD
+          docker stop $(docker ps -a -q --filter ancestor=ghcr.io/rolodex:latest)
+          docker rm $(docker ps -a -q --filter ancestor=ghcr.io/rolodex:latest)
+          docker rmi -f ghcr.io/rolodex:latest
+          docker pull ghcr.io/rolodex:latest
+          docker run -d ghcr.io/rolodex:latest
