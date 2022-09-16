@@ -23,9 +23,9 @@ jobs:
     - name: Login to Github package
       run: echo "${{ secrets.PAT_GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ secrets.Docker_username }} --password-stdin
     - name: Tag docker Image
-      run: docker tag rolodex:latest ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest
+      run: docker tag rolodex:latest ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
     - name: push docker Image
-      run: docker push ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest
+      run: docker push ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
       
       
     - name: executing remote ssh commands using ssh key
@@ -37,8 +37,8 @@ jobs:
         script: |
           # cd /home/ec2-user/prod/nginx-certbot-webapp-docker
           # echo $PWD
-          docker stop $(docker ps -a -q --filter ancestor=ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest)
-          docker rm $(docker ps -a -q --filter ancestor=ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest)
-          docker rmi -f ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest
-          docker pull ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest
-          docker run -d ghcr.io/hongweihsu/ReactTestV1/main_ReactTestV1_image:latest
+          docker stop $(docker ps -a -q --filter ancestor=ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest)
+          docker rm $(docker ps -a -q --filter ancestor=ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest)
+          docker rmi -f ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
+          docker pull ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
+          docker run -d ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
