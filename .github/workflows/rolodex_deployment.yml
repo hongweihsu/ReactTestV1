@@ -36,9 +36,10 @@ jobs:
         key: ${{ secrets.AWS_KEY }}
         script: |
           # cd /home/ec2-user/prod/nginx-certbot-webapp-docker
-          echo $PWD
+          # echo $PWD
           # docker stop ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
           # docker rm ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
           # docker rmi -f ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
+          docker login ghcr.io -u USERNAME -p ${{ secrets.GHCR_TOKEN }}
           docker pull ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
           docker run -d ghcr.io/hongweihsu/rolodex/main_rolodex_image:latest
