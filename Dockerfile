@@ -4,7 +4,7 @@ FROM node:16-alpine
 # set working directory
 WORKDIR /app
 # Copy app files
-COPY . .
+COPY monsters-rolodex .
 # ==== BUILD =====
 # Install dependencies (npm ci makes sure the exact versions in the lockfile gets installed)
 RUN npm ci
